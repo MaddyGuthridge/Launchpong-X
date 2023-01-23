@@ -6,7 +6,9 @@ Implementation of Pong
 import math
 PADDLE_WIDTH = 3/8
 PADDLE_ANGLE_CHANGE = 0.3 * math.pi
-VELOCITY_INCREASE = 0.01
+VELOCITY_INCREASE = 0.005
+VELOCITY_START = 0.02
+COUNTDOWN_LEN = 50
 
 
 def clamp(val: float) -> float:
@@ -20,16 +22,27 @@ def clamp(val: float) -> float:
 
 class Game:
     def __init__(self) -> None:
+        self.countdown = COUNTDOWN_LEN
+        self.left_win = True
+        self.right_win = True
         self.left_score = 0
         self.right_score = 0
         self.ball_pos_x = 0.5
         self.ball_pos_y = 0.5
-        self.ball_velocity = 0.02
+        self.ball_velocity = VELOCITY_START
         self.ball_angle = 0.0
         self.left_paddle = 0.5
         self.right_paddle = 0.5
 
     def tick(self, left_paddle_offset: float, right_paddle_offset: float):
+
+        if self.countdown > 0:
+            self.countdown -= 1
+            if self.countdown == 0:
+                self.left_win = False
+                self.right_win = False
+            return
+
         # Move paddles
         self.left_paddle = clamp(self.left_paddle + left_paddle_offset)
         self.right_paddle = clamp(self.right_paddle + right_paddle_offset)
@@ -52,6 +65,7 @@ class Game:
                 PADDLE_ANGLE_CHANGE * (self.ball_pos_y - self.left_paddle) \
                 / PADDLE_WIDTH
             self.ball_pos_x = 0.1
+            self.ball_velocity += VELOCITY_INCREASE
         # Right
         if (
             0.9 < self.ball_pos_x < 0.95
@@ -61,30 +75,22 @@ class Game:
                 - PADDLE_ANGLE_CHANGE * (self.ball_pos_y - self.right_paddle) \
                 / PADDLE_WIDTH
             self.ball_pos_x = 0.9
+            self.ball_velocity += VELOCITY_INCREASE
 
         # Detect left and right edge collisions
         # Left
         if self.ball_pos_x < 0:
-            if abs(self.ball_pos_y - self.left_paddle) < PADDLE_WIDTH / 2:
-                # Paddle
-                self.ball_angle = PADDLE_ANGLE_CHANGE \
-                    * (self.ball_pos_y - self.left_paddle) \
-                    / PADDLE_WIDTH
-            else:
-                # Win
-                self.right_score += 1
-                self.ball_velocity = 0.1
-                self.ball_angle = 0
-            self.ball_pos_x = 0.0
+            self.right_score += 1
+            self.ball_velocity = VELOCITY_START
+            self.ball_angle = 0
+            self.ball_pos_x = 0.5
+            self.right_win = True
+            self.countdown = COUNTDOWN_LEN
         # Right
         elif self.ball_pos_x > 1:
-            if abs(self.ball_pos_y - self.right_paddle) < PADDLE_WIDTH / 2:
-                # Paddle
-                self.ball_angle = math.pi - PADDLE_ANGLE_CHANGE \
-                    * (self.ball_pos_y - self.right_paddle) \
-                    / PADDLE_WIDTH
-            else:
-                self.left_score += 1
-                self.ball_velocity = 0.1
-                self.ball_angle = math.pi
-            self.ball_pos_x = 1.0
+            self.left_score += 1
+            self.ball_velocity = VELOCITY_START
+            self.ball_angle = math.pi
+            self.ball_pos_x = 0.5
+            self.left_win = True
+            self.countdown = COUNTDOWN_LEN
