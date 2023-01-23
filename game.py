@@ -5,7 +5,7 @@ Implementation of Pong
 """
 import math
 PADDLE_WIDTH = 3/8
-PADDLE_LENIENCY = 0.05
+PADDLE_LENIENCY = 0.1
 PADDLE_ANGLE_CHANGE = 0.3 * math.pi
 VELOCITY_INCREASE = 0.005
 VELOCITY_START = 0.02
@@ -54,7 +54,7 @@ class Game:
 
         # Move ball
         self.ball_pos_x += self.ball_velocity * math.cos(self.ball_angle)
-        self.ball_pos_y += self.ball_velocity * math.sin(self.ball_angle)
+        self.ball_pos_y += clamp(self.ball_velocity * math.sin(self.ball_angle))
 
         # Bounce off top and bottom edges
         if self.ball_pos_y <= 0 or self.ball_pos_y >= 1:
