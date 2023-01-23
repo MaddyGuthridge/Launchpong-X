@@ -32,7 +32,7 @@ class Game:
         self.left_score = 0
         self.right_score = 0
         self.ball_pos_x = 0.5
-        self.ball_pos_y = 1.0
+        self.ball_pos_y = 0.5
         self.ball_velocity = VELOCITY_START
         self.ball_angle = 0.0
         self.left_paddle = 0.5
