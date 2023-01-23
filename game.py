@@ -4,7 +4,8 @@ game.py
 Implementation of Pong
 """
 import math
-PADDLE_WIDTH = 3/8 + 0.05
+PADDLE_WIDTH = 3/8
+PADDLE_LENIENCY = 0.05
 PADDLE_ANGLE_CHANGE = 0.3 * math.pi
 VELOCITY_INCREASE = 0.005
 VELOCITY_START = 0.02
@@ -63,7 +64,8 @@ class Game:
         # Left
         if (
             self.ball_pos_x < 0.1
-            and abs(self.ball_pos_y - self.left_paddle) < PADDLE_WIDTH / 2
+            and abs(self.ball_pos_y - self.left_paddle + PADDLE_LENIENCY)
+            < PADDLE_WIDTH / 2
         ):
             self.ball_angle = \
                 PADDLE_ANGLE_CHANGE * (self.ball_pos_y - self.left_paddle) \
@@ -73,7 +75,8 @@ class Game:
         # Right
         if (
             0.9 < self.ball_pos_x
-            and abs(self.ball_pos_y - self.right_paddle) < PADDLE_WIDTH / 2
+            and abs(self.ball_pos_y - self.right_paddle + PADDLE_LENIENCY)
+            < PADDLE_WIDTH / 2
         ):
             self.ball_angle = math.pi\
                 - PADDLE_ANGLE_CHANGE * (self.ball_pos_y - self.right_paddle) \
