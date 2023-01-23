@@ -4,7 +4,7 @@ game.py
 Implementation of Pong
 """
 import math
-PADDLE_WIDTH = 3/8
+PADDLE_WIDTH = 3/8 + 0.05
 PADDLE_ANGLE_CHANGE = 0.3 * math.pi
 VELOCITY_INCREASE = 0.005
 VELOCITY_START = 0.02
@@ -56,7 +56,7 @@ class Game:
         self.ball_pos_y += self.ball_velocity * math.sin(self.ball_angle)
 
         # Bounce off top and bottom edges
-        if self.ball_pos_y == 0 or self.ball_pos_y == 1:
+        if self.ball_pos_y <= 0 or self.ball_pos_y >= 1:
             self.ball_angle *= -1
 
         # Detect paddle collisions
