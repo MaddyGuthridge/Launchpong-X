@@ -133,14 +133,22 @@ def OnIdle():
     # Draw scores
     for i, x in enumerate(LEFT_SCORES):
         if i < game.left_score:
-            device.midiOutMsg(0x90, 0x0, x, COLOR_WIN)
+            if game.left_lose:
+                color = COLOR_LOSE
+            else:
+                color = COLOR_WIN
         else:
-            device.midiOutMsg(0x90, 0x0, x, 0)
+            color = 0
+        device.midiOutMsg(0x90, 0x0, x, color)
     for i, x in enumerate(RIGHT_SCORES):
         if i < game.right_score:
-            device.midiOutMsg(0x90, 0x0, x, COLOR_WIN)
+            if game.right_lose:
+                color = COLOR_LOSE
+            else:
+                color = COLOR_WIN
         else:
-            device.midiOutMsg(0x90, 0x0, x, 0)
+            color = 0
+        device.midiOutMsg(0x90, 0x0, x, color)
 
     # Calculate movement
     left_offset = 0.0
