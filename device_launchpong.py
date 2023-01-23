@@ -71,11 +71,15 @@ def OnMidiIn(event):
             LEFT_PRESS = None
         else:
             LEFT_PRESS = LEFT_PADDLES.index(event.data1)
-    if event.data1 in RIGHT_PADDLES:
+    elif event.data1 in RIGHT_PADDLES:
         if event.data2 == 0:
             RIGHT_PRESS = None
         else:
             RIGHT_PRESS = RIGHT_PADDLES.index(event.data1)
+    elif event.data1 == 0x62 and event.data2 != 0:
+        # Reset game on pressing Capture MIDI button
+        global game
+        game = Game(8)
 
 
 def OnIdle():
