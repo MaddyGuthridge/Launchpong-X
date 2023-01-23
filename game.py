@@ -36,16 +36,17 @@ class Game:
 
     def tick(self, left_paddle_offset: float, right_paddle_offset: float):
 
+        # Move paddles
+        self.left_paddle = clamp(self.left_paddle + left_paddle_offset)
+        self.right_paddle = clamp(self.right_paddle + right_paddle_offset)
+
+        # Handle countdown
         if self.countdown > 0:
             self.countdown -= 1
             if self.countdown == 0:
                 self.left_win = False
                 self.right_win = False
             return
-
-        # Move paddles
-        self.left_paddle = clamp(self.left_paddle + left_paddle_offset)
-        self.right_paddle = clamp(self.right_paddle + right_paddle_offset)
 
         # Move ball
         self.ball_pos_x += self.ball_velocity * math.cos(self.ball_angle)
