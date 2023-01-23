@@ -1,7 +1,8 @@
 # Launchpong-X
+
 An FL Studio MIDI script for playing Pong on the Novation Launchpad X.
 
-# Setup
+## Setup
 
 1. Install the script by downloading this repository as a .zip file and
    extracting it to a new folder within your
@@ -11,7 +12,7 @@ An FL Studio MIDI script for playing Pong on the Novation Launchpad X.
    it for the inputs and outputs.
 4. From the device type drop-down, choose `Launchpong X`
 
-# Usage
+## Usage
 
 1. Each player can press on their paddle's row to move the paddle
 2. When a player has scored 8 points, the game is over
