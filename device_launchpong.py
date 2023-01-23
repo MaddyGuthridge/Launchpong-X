@@ -44,12 +44,13 @@ PLAY_FIELD = [
 COLOR_PADDLE = 0x29
 COLOR_BALL = 3
 COLOR_WIN = 0x15
+COLOR_LOSE = 0x48
 
 LEFT_PRESS = None
 RIGHT_PRESS = None
 
 
-game = Game()
+game = Game(8)
 
 
 def OnInit():
@@ -92,7 +93,9 @@ def OnIdle():
         if left_bottom <= i / len(LEFT_PADDLES) <= left_top:
             color = COLOR_PADDLE
         else:
-            if game.left_win:
+            if game.left_lose:
+                color = COLOR_LOSE
+            elif game.left_win:
                 color = COLOR_WIN
             else:
                 color = 0
@@ -103,7 +106,9 @@ def OnIdle():
         if right_bottom <= i / len(RIGHT_PADDLES) <= right_top:
             color = COLOR_PADDLE
         else:
-            if game.right_win:
+            if game.right_lose:
+                color = COLOR_LOSE
+            elif game.right_win:
                 color = COLOR_WIN
             else:
                 color = 0

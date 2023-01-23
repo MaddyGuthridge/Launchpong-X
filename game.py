@@ -21,10 +21,13 @@ def clamp(val: float) -> float:
 
 
 class Game:
-    def __init__(self) -> None:
+    def __init__(self, max_score: int) -> None:
+        self.max_score = max_score
         self.countdown = COUNTDOWN_LEN
         self.left_win = True
         self.right_win = True
+        self.left_lose = False
+        self.right_lose = False
         self.left_score = 0
         self.right_score = 0
         self.ball_pos_x = 0.5
@@ -41,7 +44,7 @@ class Game:
         self.right_paddle = clamp(self.right_paddle + right_paddle_offset)
 
         # Handle countdown
-        if self.countdown > 0:
+        if self.countdown != 0:
             self.countdown -= 1
             if self.countdown == 0:
                 self.left_win = False
@@ -87,6 +90,9 @@ class Game:
             self.ball_pos_x = 0.5
             self.right_win = True
             self.countdown = COUNTDOWN_LEN
+            if self.right_score == self.max_score:
+                self.left_lose = True
+                self.countdown = -1
         # Right
         elif self.ball_pos_x > 1:
             self.left_score += 1
@@ -95,3 +101,6 @@ class Game:
             self.ball_pos_x = 0.5
             self.left_win = True
             self.countdown = COUNTDOWN_LEN
+            if self.left_score == self.max_score:
+                self.right_lose = True
+                self.countdown = -1
