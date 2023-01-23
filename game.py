@@ -32,7 +32,7 @@ class Game:
         self.left_score = 0
         self.right_score = 0
         self.ball_pos_x = 0.5
-        self.ball_pos_y = 0.5
+        self.ball_pos_y = 1.0
         self.ball_velocity = VELOCITY_START
         self.ball_angle = 0.0
         self.left_paddle = 0.5
@@ -54,12 +54,17 @@ class Game:
 
         # Move ball
         self.ball_pos_x += self.ball_velocity * math.cos(self.ball_angle)
-        self.ball_pos_y += clamp(
-            self.ball_velocity * math.sin(self.ball_angle))
+        self.ball_pos_y += self.ball_velocity * math.sin(self.ball_angle)
 
         # Bounce off top and bottom edges
-        if self.ball_pos_y <= 0 or self.ball_pos_y >= 1:
-            self.ball_angle *= -1
+        if self.ball_pos_y <= 0:
+            self.ball_angle = abs(self.ball_angle)
+            self.ball_pos_y = 0
+        elif self.ball_pos_y >= 1:
+            self.ball_angle = -abs(self.ball_angle)
+            self.ball_pos_y = 1
+
+        # print(self.ball_pos_x, self.ball_pos_y, self.ball_angle)
 
         # Detect paddle collisions
         # Left

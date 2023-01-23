@@ -120,7 +120,7 @@ def OnIdle():
 
     # Draw the ball
     ball_x = int(game.ball_pos_x * len(PLAY_FIELD[0]))
-    ball_y = int(game.ball_pos_y * len(PLAY_FIELD))
+    ball_y = int(game.ball_pos_y * len(PLAY_FIELD) * 0.999)
     for i, row in enumerate(PLAY_FIELD):
         for j, x in enumerate(row):
 
