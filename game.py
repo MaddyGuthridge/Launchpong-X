@@ -59,7 +59,7 @@ class Game:
         # Detect paddle collisions
         # Left
         if (
-            0.05 < self.ball_pos_x < 0.1
+            self.ball_pos_x < 0.1
             and abs(self.ball_pos_y - self.left_paddle) < PADDLE_WIDTH / 2
         ):
             self.ball_angle = \
@@ -69,7 +69,7 @@ class Game:
             self.ball_velocity += VELOCITY_INCREASE
         # Right
         if (
-            0.9 < self.ball_pos_x < 0.95
+            0.9 < self.ball_pos_x
             and abs(self.ball_pos_y - self.right_paddle) < PADDLE_WIDTH / 2
         ):
             self.ball_angle = math.pi\
